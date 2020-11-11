@@ -1,69 +1,81 @@
+//THIS TOOL HAS BEEN REVISED AND DEBUGGED
+
 function FreehandTool(){
-	//set an icon and a name for the object
+    
+	//Set an icon and a name for the object
 	this.icon = "assets/freehand.jpg";
 	this.name = "freehand";
-    this.sizePen = 2;
-
+    
+    //Variables to be able to size
+    this.sizePen = 1;
     var self = this;
-	//to smoothly draw we'll draw a line from the previous mouse location
-	//to the current mouse location. The following values store
-	//the locations from the last frame. They are -1 to start with because
-	//we haven't started drawing yet.
+    
+	//To smoothly draw we'll draw a line from the previous mouse location
+	//To the current mouse location. The following values store
+	//The locations from the last frame. They are -1 to start with because we haven't started drawing yet.
 	var previousMouseX = -1;
 	var previousMouseY = -1;    
     
 	this.draw = function(){
-        
-        
-		//if the mouse is pressed
-		if(mouseIsPressed){
-			//check if they previousX and Y are -1. set them to the current
-			//mouse X and Y if they are.
+
+        //This IF checks if the mouse is clicked on the canvas area, not outside of it
+        if(mouseIsPressed && mouseX > 0 && mouseX < window.innerWidth && 
+           mouseY > 0 && mouseY < canvasContainer.innerHeight()){
+            
+			//Check if they previousX and Y are -1. set them to the current
+			//Mouse X and Y if they are.
 			if (previousMouseX == -1){
 				previousMouseX = mouseX;
 				previousMouseY = mouseY;
-			}
-			//if we already have values for previousX and Y we can draw a line from 
-			//there to the current mouse location
-			else{
                 
+            //If we already have values for previousX and Y we can draw a line from 
+			//There to the current mouse location    
+			}else{
                 strokeWeight(this.sizePen);
 				line(previousMouseX, previousMouseY, mouseX, mouseY);
 				previousMouseX = mouseX;
 				previousMouseY = mouseY;
                 
 			}
-		}
-		//if the user has released the mouse we want to set the previousMouse values 
-		//back to -1.
-		//try and comment out these lines and see what happens!
-		else{
+            
+        //If the user has released the mouse we want to set the previousMouse values, back to -1.     
+		}else{
 			previousMouseX = -1;
 			previousMouseY = -1;
-		}
-         strokeWeight(2);
-        
+		
+        }
+
 	};
     
     
-    
-    
-	this.unselectTool = function(){
-		updatePixels();
-		//clear options
+    //Clear options 
+    this.unselectTool = function(){
 		$(".options").html("");
+        
+        strokeWeight(1);
 	};
-
-	//adds a button and click handler to the options area. When clicked 
-	//toggle the line of symmetry between horizonatl to vertical 
-	this.populateOptions = function(){
-		$(".options").html("Size: <input id='sizeRange' type='range' min='1' max='100' value='1' class='slider'>");
-		//click handler
-		$("#sizeRange").on("change", function(){
     
-				self.sizePen = $("#sizeRange").val();
+    
+	//This function creates options for the tool
+	this.populateOptions = function(){
+		$(".options").html("<div class='optionCont'> Size: <input id='sizeRange' type='range' min='1' max='100' value='" + this.sizePen + "' class='slider'> <input type='number' id='sizeInput' value='" + this.sizePen + "' class='sizeInput' min='1' max='100'> </div>");
 
+		//Click handler
+		$("#sizeRange").bind('input', function(){
+    
+            self.sizePen = $("#sizeRange").val();
+            $('#sizeInput').prop('value',$("#sizeRange").val());
+                
 		});
+        
+        //Click handler
+        $("#sizeInput").bind('input', function(){
+    
+            self.sizePen = $("#sizeInput").val();
+            $('#sizeRange').prop('value',$("#sizeInput").val());
+                  
+		});
+        
 	};
    
 

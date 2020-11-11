@@ -9,14 +9,13 @@ function shapeTool(){
     var self = this;
     this.shape = 1;
     this.fill = false;
-    
-    
 
     //Main function for drawing the line
 	this.draw = function(){
         
-        //Checks IF mouse has been pressed
-		if(mouseIsPressed){
+        //This IF checks if the mouse is clicked on the canvas area, not outside of it.
+        if(mouseIsPressed && mouseX > 0 && mouseX < window.innerWidth && 
+           mouseY > 0 && mouseY < canvasContainer.innerHeight()){
             
             //IF the position of the mouse is on its default value, it updates the position of the mouse when pressing
 			if(startMouseX == -1){
@@ -24,77 +23,108 @@ function shapeTool(){
 				startMouseY = mouseY;
 				drawing = true; //Varible for drawing is true
 				loadPixels(); //Displays the (pixels data) on the window (canvas)
-			}
-            
-            //Shows a PREVIEW of the line before stoping the click
-			else{
+                
+            //Shows a PREVIEW of the line before stoping the click   
+			}else{
+                
 				updatePixels(); //This updates the line (pixels data) for preview before stop pressing the mouse
-                if(this.shape == 1)
-                    {
-                        rect(startMouseX, startMouseY, mouseX, mouseY);
-                    }else if(this.shape == 2)
-                        {
-                            ellipse(startMouseX, startMouseY, mouseX, mouseY);
-                        }else{
-                            triangle(startMouseX, startMouseY,
-                                    startMouseX-30, mouseY+30,
-                                    mouseX+50, mouseY+30);
-                        }
-                //The line for preview
+                
+                //Checks if there is fill or not
+                if(this.fill == true){
+                    fill(actualColour);
+                }else{
+                    noFill();
+                    stroke(actualColour);
+                }
+                
+                //Creates squares
+                if(this.shape == 1){
+                    rect(startMouseX, startMouseY, mouseX-startMouseX,  mouseY-startMouseY);
+                        
+                //Creates ellipse
+                }else if(this.shape == 2){
+                    ellipse(startMouseX, startMouseY, (mouseX - startMouseX) * 2,  (mouseY - startMouseY) * 2);  
+                  
+                //Creates triangle
+                }else{     
+                    triangle(startMouseX, startMouseY,
+                            mouseX, startMouseY,
+                            (mouseX - startMouseX) / 2 + startMouseX, mouseY);  
+                            
+                }
+                
 			}
 
 		}
         
         //IF the mouse is not pressed anymore but the DRAWING varaible is true (ready to draw) then...
 		else if(drawing){
-			//line(startMouseX, startMouseY, mouseX, mouseY); //Draw the ACTUAL line (MAKES DOUBLE)
 			drawing = false; //Finish the drawing 
 			startMouseX = -1; //Set again the pre-default value of mouse position
 			startMouseY = -1; //Set again the pre-default value of mouse position
+            
 		}
+        
+	}
+
+    
+    //Clear options and reset the default values
+    this.unselectTool = function(){
+		$(".options").html("");
+        
+        fill(actualColour);
+        stroke(actualColour);
 	};
     
-    this.unselectTool = function(){
-		updatePixels();
-		//clear options
-		$(".options").html("");
-	};
-
-	//adds a button and click handler to the options area. When clicked 
+    
+	//Options section
 	this.populateOptions = function(){
 		
-        $(".options").append("<button id='rectangleButton'>Rectangle</button>");
-		//click handler
+        //Rectangle button set as default and functionality
+        $(".options").append("<img src='assets/square.jpg' class='optImage optShape' id='rectangleButton'>");
+        $("#rectangleButton").css({'outline':'3px solid #f26cd1','outline-offset':'2px'});
 		$("#rectangleButton").on("click", function(){
-                self.shape = 1;
+            self.shape = 1;
+            $(".options .optShape").css('outline','none');
+            $("#rectangleButton").css({'outline':'3px solid #f26cd1','outline-offset':'2px'});
             
 		});
         
-        $(".options").append("<button id='ellipseButton'>Ellipse</button>");
-		//click handler
+        //Ellipse button and functionality
+        $(".options").append("<img src='assets/ellipse.jpg' class='optImage optShape' id='ellipseButton'>");
 		$("#ellipseButton").on("click", function(){
-                self.shape = 2;
+            self.shape = 2;
+            $(".options .optShape").css('outline','none');
+            $("#ellipseButton").css({'outline':'3px solid #f26cd1','outline-offset':'2px'});
             
 		});
-        $(".options").append("<button id='triangleButton'>Triangle</button>");
-		//click handler
+        
+        //Triangle button and functionality
+        $(".options").append("<img src='assets/triangle.jpg' class='optImage optShape' id='triangleButton'>");
 		$("#triangleButton").on("click", function(){
-            
-                self.shape = 3;
+            self.shape = 3;
+            $(".options .optShape").css('outline','none');
+            $("#triangleButton").css({'outline':'3px solid #f26cd1','outline-offset':'2px'});
         });
-        $(".options").append("<button id='fillButton'>Fill</button>");
-		//click handler
+        
+        //Create the 2 buttons and default value
+        $(".options").append("<img src='assets/noFill.jpg' class='optImage optFill' id='nofillButton'>");
+        $(".options").append("<img src='assets/fill.jpg' class='optImage optFill' id='fillButton'>");
+        $("#nofillButton").css({'outline':'3px solid #f26cd1','outline-offset':'2px'});
+        
+		//Functionality of the fill buttons
 		$("#fillButton").on("click", function(){
-            
-            if (self.fill == false){
-                self.fill = true;
-                $(this).text("Fill")
-            }else{
-                self.fill = false;
-                $(this).text("Don't Fill")
-            }
-            
+            self.fill = true;
+            $(".options .optFill").css('outline','none');
+            $("#fillButton").css({'outline':'3px solid #f26cd1','outline-offset':'2px'});    
         });
+        
+        $("#nofillButton").on("click", function(){
+            self.fill = false;
+            $(".options .optFill").css('outline','none');
+            $("#nofillButton").css({'outline':'3px solid #f26cd1','outline-offset':'2px'});
+        });
+        
     }
 
 }

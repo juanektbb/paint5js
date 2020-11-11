@@ -21,23 +21,26 @@
     <script src="sprayCanTool.js"></script>
     <script src="bucketTool.js"></script>
     <script src="shapeTool.js"></script>
-    <script src="textTool.js"></script>
+	  <script src="trailTool.js"></script>
     <script src="eraserTool.js"></script>
+    <script src="stampTool.js"></script>
+    <script src="filterTool.js"></script>
 
     <link rel="stylesheet" type="text/css" href="style.css">
   </head>
   <body>
   	<div class="wrapper">
-      <div class="box header">Artek
+      <div class="box header">Paint5.js
         <button id="clearButton">Clear</button>
-          <button id="undoButton">Undo</button>
-          <button id="redoButton">Redo</button>
         <button id="saveImageButton">Save Image</button>
+     
+        <input type="file" id="files" name="files[]" style="display:none;">
+          <output id="list"></output>
+          
       </div>
       <div class="box sidebar"></div>
       <div id="content"></div>
         
-      
               <div class="box colourPalette"></div>
               <div class="box options"></div>
         

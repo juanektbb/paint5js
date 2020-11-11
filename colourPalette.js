@@ -1,7 +1,7 @@
 //Displays and handles the colour palette.
 function ColourPalette(){
 	//a list of web colour strings
-	this.colours = ["black", "silver", "gray", "white", "maroon", "red", "purple", "orange", "pink", "fuchsia", "green", "lime", "olive", "yellow", "navy", "blue", "teal", "aqua", "brown", "magenta", "cyan"];
+	this.colours = ["black", "silver", "gray", "white", "maroon", "red", "purple", "orange", "pink", "fuchsia", "green", "lime", "olive", "yellow", "navy", "blue", "teal", "aqua"];
 	//make the start colour be black
 	this.selectedColour = "black";
  
@@ -26,7 +26,8 @@ function ColourPalette(){
 	};
 	//call the loadColours function now it is declared
 	this.loadColours();
-
+    actualColour = 'black';
+    
 	//handle clicks on the colours.
 	$(".colourPalette").on("click", ".colourSwatches", function(){
 		//get the colour string back from the id

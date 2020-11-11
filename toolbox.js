@@ -10,7 +10,7 @@ function Toolbox(){
 	//from the div's ID.
 	$(".sidebar").on("click", ".sideBarItem", function(){
 		//clear any border round items
-		$(".sideBarItem").css("border", "0");
+		$(".sideBarItem").css({'outline':'none'});
 		toolName = split($(this).attr('id'), "sideBarItem")[0];
 		//call selectTool to update the selectedTool property
 		self.selectTool(toolName); 
@@ -50,7 +50,7 @@ function Toolbox(){
 				}
 				//select the tool and highlight it on the toolbar
 				this.selectedTool = this.tools[i];
-				$("#" + toolName + "sideBarItem").css("border", "2px solid blue");
+				$("#" + toolName + "sideBarItem").css({'outline':'3px solid #f26cd1'});
 
 				//if the tool has an options area. Populate it now.
 				if(this.selectedTool.hasOwnProperty("populateOptions")){

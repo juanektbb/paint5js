@@ -3,6 +3,8 @@
 var toolbox = null;
 var colourP = null;
 var helpers = null;
+var img;
+
 
 
 function setup() {
@@ -12,7 +14,7 @@ function setup() {
     var c = createCanvas(canvasContainer.innerWidth(), canvasContainer.innerHeight());
     c.parent("content");
     
-    var actualColour;
+    var actualColour = 'black';
     var contents = "";
 
    //create helper functions and the colour palette
@@ -28,12 +30,24 @@ function setup() {
     toolbox.addTool(new SprayCanTool());
     toolbox.addTool(new mirrorDrawTool());
     
-    
     toolbox.addTool(new bucketTool());
     toolbox.addTool(new shapeTool());
-    toolbox.addTool(new textTool());
+    toolbox.addTool(new trailTool());
+    
     toolbox.addTool(new eraserTool());
+    toolbox.addTool(new stampTool());
+    toolbox.addTool(new filterTool());
+    
+    pixelDensity(1);
+    cursor(CROSS);
+    background(255,255,255);
+    
 
+    img = loadImage('assets/juan.jpg');
+    
+
+    
+    
 }
 
 function draw() {
@@ -48,6 +62,10 @@ function draw() {
 	else{
 		alert("it doesn't look like your tool has a draw method!");
 	}
+    
+    
+
+    
 }
 
 
